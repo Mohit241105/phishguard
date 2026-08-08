@@ -1,0 +1,33 @@
+From: "PayPal Security Team" <security-update@mail-server-9821.xyz>
+To: target-user@company.com
+Subject: URGENT: Your PayPal Account Has Been Suspended!
+Date: Thu, 30 Jul 2026 10:15:00 +0000
+Message-ID: <20260730101500.9821@mail-server-9821.xyz>
+Reply-To: credential-harvest@attacker-domain.top
+Return-Path: bounce@attacker-domain.top
+Content-Type: multipart/mixed; boundary="BOUNDARY_PHISH_GUARD"
+
+--BOUNDARY_PHISH_GUARD
+Content-Type: text/html; charset="utf-8"
+
+<html>
+<body>
+    <h2>Security Alert: Immediate Action Required</h2>
+    <p>Dear Customer,</p>
+    <p>We detected unauthorized login attempts on your PayPal account from an unknown IP address (192.168.4.12).</p>
+    <p>Your account will be <strong>permanently suspended within 24 hours</strong> unless you verify your identity and update your password immediately.</p>
+    <p>Please click the secure link below to restore your access:</p>
+    <p><a href="http://192.168.1.50/login/paypal-verification?id=9821">https://www.paypal.com/verify-account</a></p>
+    <p>Alternatively, click here to access our portal: <a href="http://bit.ly/3xPhish">http://bit.ly/3xPhish</a></p>
+    <br/>
+    <p>Sincerely,</p>
+    <p>PayPal Security Team</p>
+</body>
+</html>
+
+--BOUNDARY_PHISH_GUARD
+Content-Type: application/vnd.ms-excel.sheet.macroEnabled.12
+Content-Disposition: attachment; filename="Account_Verification_Form.docm.exe"
+
+[SIMULATED BINARY ATTACHMENT CONTENT]
+--BOUNDARY_PHISH_GUARD--
