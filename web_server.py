@@ -2,7 +2,7 @@ import os
 import sys
 import webbrowser
 from threading import Timer
-import uvicorn
+import uvicorn  # type: ignore # pyrefly: ignore [missing-import]
 
 # Ensure project root is in sys.path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

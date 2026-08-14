@@ -4,11 +4,11 @@ import json
 import tempfile
 import time
 from typing import Optional
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query  # type: ignore # pyrefly: ignore
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore # pyrefly: ignore
+from fastapi.responses import FileResponse, JSONResponse  # type: ignore # pyrefly: ignore
+from fastapi.staticfiles import StaticFiles  # type: ignore # pyrefly: ignore
+from pydantic import BaseModel  # type: ignore # pyrefly: ignore
 
 # Ensure project root is in sys.path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -204,5 +204,5 @@ def login(auth: UserAuthRequest):
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
 if __name__ == "__main__":
-    import uvicorn
+    import uvicorn  # type: ignore # pyrefly: ignore
     uvicorn.run("fastapi_app:app", host="127.0.0.1", port=5000, reload=True)
