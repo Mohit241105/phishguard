@@ -1,331 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PhishGuard AI - Cyber SOC Dashboard</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chart.js & Three.js CDNs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishGuard AI — Enterprise SOC Security Platform</title>
+
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Three.js (WebGL 3D Engine) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <!-- Three.js 3D WebGL Background Canvas -->
-    <canvas id="three-canvas"></canvas>
 
-    <!-- Top Navigation Header -->
-    <header class="top-navbar">
-        <div class="nav-left">
-            <button class="icon-btn menu-btn" id="toggle-sidebar" title="Menu">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-            <div class="brand-info">
-                <h1>🛡️ PhishGuard AI Dashboard</h1>
-                <span class="subtitle">AI & ML Powered SOC Email Threat Intelligence Engine</span>
-            </div>
+  <div id="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand-header">
+          <div class="brand-logo">
+            <i data-lucide="shield-alert"></i>
+          </div>
+          <div>
+            <div class="brand-title">PhishGuard AI</div>
+            <span class="brand-badge">SOC SaaS 2.0</span>
+          </div>
         </div>
-        <div class="nav-right">
-            <button class="icon-btn" id="btn-history" title="Scan History">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>Scan History</span>
-            </button>
-            <button class="icon-btn" id="btn-export" title="Export Reports">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                <span>Export Report</span>
-            </button>
-            <div class="user-profile">
-                <div class="avatar">SOC</div>
-                <span class="user-name">Analyst 1</span>
-            </div>
-            <button class="floating-add-btn" id="btn-new-scan" title="New Manual Scan">+</button>
-        </div>
-    </header>
 
-    <!-- Main Dashboard Grid Layout -->
-    <main class="dashboard-grid">
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <button data-page="dashboard">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Dashboard</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button data-page="analyze">
+              <i data-lucide="scan"></i>
+              <span>Analyze Email</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button data-page="history">
+              <i data-lucide="history"></i>
+              <span>History</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button data-page="threat-intel">
+              <i data-lucide="crosshair"></i>
+              <span>Threat Intel</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button data-page="reports">
+              <i data-lucide="file-text"></i>
+              <span>Reports</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button data-page="settings">
+              <i data-lucide="settings"></i>
+              <span>Settings</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-avatar">MA</div>
+        <div class="user-info">
+          <span class="user-name">Mohit (Lead Analyst)</span>
+          <span class="user-role">SOC Tier-3 Analyst</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content -->
+    <main class="main-content">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="page-title-box">
+          <h1 class="page-title" id="topbar-title">SOC Threat Overview</h1>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span>AI Hybrid Engine Active</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE 1: DASHBOARD OVERVIEW -->
+      <section id="page-dashboard" class="page-view active">
         
-        <!-- Background Chart Card 1: Top Bar Chart -->
-        <div class="dashboard-card card-top-bar">
-            <div class="card-header">
-                <h3>Historical Email Scan Statistics</h3>
-                <div class="legend-pills">
-                    <span class="legend-item blue"><span class="dot"></span> Safe Emails</span>
-                    <span class="legend-item purple"><span class="dot"></span> Suspicious</span>
-                    <span class="legend-item red"><span class="dot"></span> Phishing Attacks</span>
-                </div>
+        <div class="grid-metrics">
+          <div class="card-metric">
+            <div class="metric-header">
+              <span>Emails Analyzed</span>
+              <div class="metric-icon"><i data-lucide="mail"></i></div>
             </div>
-            <div class="chart-container">
-                <canvas id="barChart"></canvas>
+            <div class="metric-value" id="stat-analyzed">0</div>
+            <div class="metric-sub">Total scans logged</div>
+          </div>
+
+          <div class="card-metric">
+            <div class="metric-header">
+              <span>Threats Detected</span>
+              <div class="metric-icon"><i data-lucide="shield-off" style="color: var(--status-danger);"></i></div>
             </div>
+            <div class="metric-value" id="stat-threats" style="color: var(--status-danger);">0</div>
+            <div class="metric-sub">Phishing & suspicious verdicts</div>
+          </div>
+
+          <div class="card-metric">
+            <div class="metric-header">
+              <span>High Risk Count</span>
+              <div class="metric-icon"><i data-lucide="alert-triangle" style="color: var(--status-warning);"></i></div>
+            </div>
+            <div class="metric-value" id="stat-high-risk">0</div>
+            <div class="metric-sub">Critical email threats</div>
+          </div>
+
+          <div class="card-metric">
+            <div class="metric-header">
+              <span>Threat Ratio</span>
+              <div class="metric-icon"><i data-lucide="percent" style="color: var(--accent-cyan);"></i></div>
+            </div>
+            <div class="metric-value" id="stat-ratio" style="color: var(--accent-cyan);">0%</div>
+            <div class="metric-sub">High risk percentage</div>
+          </div>
         </div>
 
-        <!-- Background Chart Card 2: Bottom Left Ring Chart -->
-        <div class="dashboard-card card-bottom-left">
-            <div class="card-header">
-                <h3>Threat Verdict Ratio</h3>
-                <span class="card-badge" id="scan-count-badge">Total Scans: 12</span>
-            </div>
-            <div class="doughnut-wrapper">
-                <canvas id="doughnutChart"></canvas>
-                <div class="doughnut-center-text">
-                    <span class="center-title" id="center-score-val">0 / 100</span>
-                    <span class="center-sub" id="center-score-label">Risk Score</span>
-                </div>
-            </div>
-            <div class="chart-stats">
-                <div class="stat-row"><span class="dot green"></span> Safe Ratio <strong id="stat-safe">80%</strong></div>
-                <div class="stat-row"><span class="dot red"></span> Phishing Ratio <strong id="stat-phish">20%</strong></div>
-            </div>
+        <!-- Recent Scans Table -->
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="clock"></i>
+            <span>Recent Threat Detection Logs</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Subject</th>
+                  <th>Sender</th>
+                  <th>Verdict</th>
+                  <th>Risk Score</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-recent-scans-body">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--text-dim);">Loading SOC scan activity...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!-- Background Chart Card 3: Bottom Right Multi-Ring Gauge -->
-        <div class="dashboard-card card-bottom-right">
-            <div class="card-header">
-                <h3>Security Engine Performance Gauges</h3>
+      </section>
+
+      <!-- PAGE 2: ANALYZE EMAIL -->
+      <section id="page-analyze" class="page-view">
+        
+        <div class="analysis-hero">
+          <!-- Drag & Drop Zone -->
+          <div class="dropzone-card" id="dropzone">
+            <input type="file" id="eml-file-input" accept=".eml,.msg,.txt" style="display: none;">
+            
+            <div class="upload-icon-box">
+              <i data-lucide="upload-cloud" style="width: 32px; height: 32px;"></i>
             </div>
-            <div class="radial-wrapper">
-                <canvas id="radialChart"></canvas>
+            
+            <div class="dropzone-title">Drop your .eml file here</div>
+            <div class="dropzone-subtitle">Direct upload or select a test sample below to analyze</div>
+
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="document.getElementById('eml-file-input').click();">
+                <i data-lucide="file-plus"></i> Browse File
+              </button>
+              <button class="btn btn-secondary" id="btn-sample-phishing">
+                <i data-lucide="bug"></i> Load Phishing Sample
+              </button>
+              <button class="btn btn-secondary" id="btn-sample-safe">
+                <i data-lucide="check-circle"></i> Load Safe Sample
+              </button>
             </div>
-            <div class="gauge-legend">
-                <span class="gauge-tag"><span class="dot cyan"></span> <span id="gauge-header-val">Header: 0%</span></span>
-                <span class="gauge-tag"><span class="dot blue"></span> <span id="gauge-url-val">URL: 0%</span></span>
-                <span class="gauge-tag"><span class="dot purple"></span> <span id="gauge-nlp-val">NLP: 0%</span></span>
-            </div>
+          </div>
+
+          <!-- 3D Three.js Cyber Visualizer Canvas -->
+          <div class="three-canvas-card">
+            <div id="cyber-canvas"></div>
+            <div class="canvas-overlay-text">3D WebGL Shield Visualizer</div>
+          </div>
         </div>
+
+        <!-- Step-by-Step Analysis Flow Pipeline -->
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="git-commit"></i>
+            <span>Real-time Multi-Engine Analysis Flow</span>
+          </div>
+
+          <div class="pipeline-flow">
+            <div class="pipeline-step" id="step-ingest">
+              <div class="step-node"><i data-lucide="file"></i></div>
+              <span class="step-label">1. File Ingest</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+            
+            <div class="pipeline-step" id="step-parser">
+              <div class="step-node"><i data-lucide="code"></i></div>
+              <span class="step-label">2. MIME Parser</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-header">
+              <div class="step-node"><i data-lucide="shield"></i></div>
+              <span class="step-label">3. Header Engine</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-url">
+              <div class="step-node"><i data-lucide="link"></i></div>
+              <span class="step-label">4. URL Matrix</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-attachment">
+              <div class="step-node"><i data-lucide="paperclip"></i></div>
+              <span class="step-label">5. Attachment Sandbox</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-nlp">
+              <div class="step-node"><i data-lucide="brain"></i></div>
+              <span class="step-label">6. NLP Engine</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-ml">
+              <div class="step-node"><i data-lucide="cpu"></i></div>
+              <span class="step-label">7. ML Classifier</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-hybrid">
+              <div class="step-node"><i data-lucide="sparkles"></i></div>
+              <span class="step-label">8. Hybrid XAI</span>
+            </div>
+            <span class="pipeline-arrow">›</span>
+
+            <div class="pipeline-step" id="step-verdict">
+              <div class="step-node"><i data-lucide="check-square"></i></div>
+              <span class="step-label">9. Verdict</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULT DASHBOARD CONTAINER (Initially Hidden) -->
+        <div id="results-container" style="display: none;">
+          
+          <!-- Banner: Circular Gauge + Explainable AI (XAI) -->
+          <div class="result-banner">
+            <div class="gauge-box">
+              <div class="circle-meter">
+                <svg width="140" height="140" viewBox="0 0 140 140">
+                  <circle class="circle-bg" cx="70" cy="70" r="60" />
+                  <circle class="circle-val" id="circle-val-path" cx="70" cy="70" r="60" />
+                </svg>
+                <div class="score-text-overlay">
+                  <div class="score-number" id="res-score-num">0</div>
+                  <div class="score-label">Risk Score</div>
+                </div>
+              </div>
+
+              <div id="res-verdict-badge" class="verdict-badge badge-safe">SAFE</div>
+            </div>
+
+            <!-- XAI Reasons -->
+            <div class="xai-summary">
+              <div class="xai-title">Explainable AI (XAI) Analysis Summary</div>
+              <ul class="xai-list" id="res-xai-list">
+                <!-- Dynamic XAI items -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- TABBED FORENSIC DETAILS -->
+          <div class="tabs-container">
+            <div class="tab-nav">
+              <button class="tab-btn active" data-tab="header">Header & Auth</button>
+              <button class="tab-btn" data-tab="url">URL Matrix</button>
+              <button class="tab-btn" data-tab="attachments">Attachments</button>
+              <button class="tab-btn" data-tab="nlp">NLP Tactics</button>
+              <button class="tab-btn" data-tab="ml">ML Engine</button>
+              <button class="tab-btn" data-tab="mitre">MITRE ATT&CK & IOCs</button>
+            </div>
+
+            <!-- TAB 1: HEADER & AUTH -->
+            <div class="tab-pane active" id="tab-header">
+              <div class="table-responsive">
+                <table class="table-custom">
+                  <thead>
+                    <tr>
+                      <th>Authentication Protocol</th>
+                      <th>Status</th>
+                      <th>Detail</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>SPF (Sender Policy Framework)</td>
+                      <td id="val-spf">-</td>
+                      <td>Validates sender IP against domain TXT records.</td>
+                    </tr>
+                    <tr>
+                      <td>DKIM (DomainKeys)</td>
+                      <td id="val-dkim">-</td>
+                      <td>Cryptographic signature verification.</td>
+                    </tr>
+                    <tr>
+                      <td>DMARC Policy</td>
+                      <td id="val-dmarc">-</td>
+                      <td>Enforcement policy compliance.</td>
+                    </tr>
+                    <tr>
+                      <td>From Header</td>
+                      <td colspan="2" id="val-sender">-</td>
+                    </tr>
+                    <tr>
+                      <td>Originating Mail IP</td>
+                      <td colspan="2" id="val-origin-ip" class="mono">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 2: URL MATRIX -->
+            <div class="tab-pane" id="tab-url">
+              <div class="table-responsive">
+                <table class="table-custom">
+                  <thead>
+                    <tr>
+                      <th>Extracted URL</th>
+                      <th>Domain</th>
+                      <th>Risk Level</th>
+                      <th>Flagged Indicators</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbl-urls-body">
+                    <!-- Dynamic URL rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 3: ATTACHMENTS -->
+            <div class="tab-pane" id="tab-attachments">
+              <div class="table-responsive">
+                <table class="table-custom">
+                  <thead>
+                    <tr>
+                      <th>Filename</th>
+                      <th>SHA-256 Hash</th>
+                      <th>Risk Level</th>
+                      <th>Security Flags</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbl-att-body">
+                    <!-- Dynamic Attachment rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 4: NLP TACTICS -->
+            <div class="tab-pane" id="tab-nlp">
+              <div class="nlp-highlight-box" id="nlp-findings-box">
+                <!-- Dynamic NLP findings -->
+              </div>
+            </div>
+
+            <!-- TAB 5: ML ENGINE -->
+            <div class="tab-pane" id="tab-ml">
+              <div class="card-metric">
+                <div class="metric-header">
+                  <span>Random Forest + TF-IDF Classifier</span>
+                </div>
+                <div style="margin-top: 1rem;">
+                  <p style="font-size: 0.9rem;">Model Classification: <strong id="ml-classification" style="color: var(--accent-cyan);">SAFE</strong></p>
+                  <p style="font-size: 0.9rem; margin-top: 0.4rem;">Confidence Level: <strong id="ml-confidence">0%</strong></p>
+                  <p style="font-size: 0.9rem; margin-top: 0.4rem;">Phishing Probability: <strong id="ml-phishing-prob" style="color: var(--status-danger);">0%</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 6: MITRE ATT&CK -->
+            <div class="tab-pane" id="tab-mitre">
+              <div id="mitre-techniques-list">
+                <!-- Dynamic MITRE technique cards -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- PAGE 3: HISTORY ARCHIVES -->
+      <section id="page-history" class="page-view">
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="database"></i>
+            <span>Forensic Scan History</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Scan Timestamp</th>
+                  <th>Subject</th>
+                  <th>Sender</th>
+                  <th>Verdict</th>
+                  <th>Risk Score</th>
+                </tr>
+              </thead>
+              <tbody id="tbl-full-history-body">
+                <tr>
+                  <td colspan="6" style="text-align: center; color: var(--text-dim);">Loading historical records...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 4: THREAT INTELLIGENCE -->
+      <section id="page-threat-intel" class="page-view">
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="search"></i>
+            <span>IOC Threat Lookup Sandbox</span>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <input type="text" id="intel-input" placeholder="Enter IP address, Domain, URL, or SHA-256 Hash..." style="flex: 1; padding: 0.65rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff;">
+            <select id="intel-type-select" style="padding: 0.65rem 1rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 8px; color: #fff;">
+              <option value="ip">IP Address</option>
+              <option value="domain">Domain Name</option>
+              <option value="url">URL</option>
+              <option value="hash">SHA-256 Hash</option>
+            </select>
+            <button class="btn btn-primary" id="btn-intel-lookup">
+              <i data-lucide="shield-search"></i> Perform Lookup
+            </button>
+          </div>
+
+          <div id="intel-results-box">
+            <p style="color: var(--text-dim);">Results from VirusTotal, AbuseIPDB, and WHOIS will appear here.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 5: REPORTS -->
+      <section id="page-reports" class="page-view">
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="download"></i>
+            <span>Export Active Forensic Report</span>
+          </div>
+
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">Export the most recently analyzed email security report in commercial formats for reporting to incident response teams.</p>
+
+          <div class="btn-group" style="justify-content: flex-start;">
+            <a href="/api/v1/reports/export/json" class="btn btn-primary" download>
+              <i data-lucide="file-json"></i> Export JSON Report
+            </a>
+            <a href="/api/v1/reports/export/html" class="btn btn-secondary" download>
+              <i data-lucide="globe"></i> Export HTML Report
+            </a>
+            <a href="/api/v1/reports/export/txt" class="btn btn-secondary" download>
+              <i data-lucide="file-text"></i> Export Text Summary
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 6: SETTINGS -->
+      <section id="page-settings" class="page-view">
+        <div class="pipeline-card">
+          <div class="pipeline-title">
+            <i data-lucide="sliders"></i>
+            <span>SOC Engine Configuration</span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted);">Configure engine sensitivity, API keys for threat intelligence feeds, and automated response rules.</p>
+        </div>
+      </section>
 
     </main>
 
-    <!-- CENTRAL FLOATING MANUAL SCAN MODAL (Matching User Reference Image Layout) -->
-    <div class="central-modal-container" id="manual-scan-modal">
-        <div class="manual-scan-card">
-            
-            <!-- Graphic Header -->
-            <div class="scan-card-header">
-                <div class="icon-avatar">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00F2FE" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
-                </div>
-                <h2>MANUAL EMAIL SCANNER</h2>
-                <div class="kit-subtitle">
-                    <span>INSPECTION PROFILE</span>
-                    <select id="kit-select" class="kit-dropdown">
-                        <option value="identifier">Identifier Plus ▼</option>
-                        <option value="advanced">Advanced SOC Kit ▼</option>
-                    </select>
-                </div>
-            </div>
+  </div>
 
-            <!-- Dual-Column Pill Tag Grid (L / R) -->
-            <div class="pill-grid-wrapper">
-                <div class="grid-headers">
-                    <span>LEFT CHECKS</span>
-                    <span>RIGHT CHECKS</span>
-                </div>
-                
-                <div class="pill-rows" id="pill-rows-container">
-                    <!-- Row 1: Header Checks (Blue) -->
-                    <div class="pill-row">
-                        <span class="pill-label">SPF RECORD</span>
-                        <div class="pill-item blue" id="pill-spf">SPF PASS <span class="arr">▼</span></div>
-                        <div class="pill-item blue" id="pill-dkim">DKIM PASS <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">DMARC AUTH</span>
-                        <div class="pill-item blue" id="pill-dmarc">DMARC PASS <span class="arr">▼</span></div>
-                        <div class="pill-item blue" id="pill-reply">REPLY MATCH <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">RETURN PATH</span>
-                        <div class="pill-item blue" id="pill-return">RETURN MATCH <span class="arr">▼</span></div>
-                        <div class="pill-item blue" id="pill-spoof">NO SPOOFING <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">ROUTING IP</span>
-                        <div class="pill-item blue" id="pill-ip-route">VALID IP <span class="arr">▼</span></div>
-                        <div class="pill-item blue" id="pill-msg-id">HEADER OK <span class="arr">▼</span></div>
-                    </div>
+  <!-- Lucide Icons Initialize -->
+  <script>
+    lucide.createIcons();
+  </script>
 
-                    <!-- Row 2: URL & Attachment Checks (Green) -->
-                    <div class="pill-row">
-                        <span class="pill-label">URL DECODE</span>
-                        <div class="pill-item green" id="pill-url">URL CLEAN <span class="arr">▼</span></div>
-                        <div class="pill-item green" id="pill-ip">IP HOST CLEAN <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">PUNYCODE</span>
-                        <div class="pill-item green" id="pill-puny">NO PUNYCODE <span class="arr">▼</span></div>
-                        <div class="pill-item green" id="pill-short">NO SHORTENER <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">ATTACHMENT</span>
-                        <div class="pill-item green" id="pill-att">NO ATTACHMENTS <span class="arr">▼</span></div>
-                        <div class="pill-item green" id="pill-macro">NO MACROS <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">FILE TYPE</span>
-                        <div class="pill-item green" id="pill-double-ext">CLEAN EXT <span class="arr">▼</span></div>
-                        <div class="pill-item green" id="pill-archive">UNLOCKED <span class="arr">▼</span></div>
-                    </div>
-
-                    <!-- Row 3: Neutral Checks (Gray) -->
-                    <div class="pill-row">
-                        <span class="pill-label">ANCHOR TEXT</span>
-                        <div class="pill-item gray" id="pill-anchor">MATCHED <span class="arr">▼</span></div>
-                        <div class="pill-item gray" id="pill-protocol">HTTPS SECURE <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">GREETING</span>
-                        <div class="pill-item gray" id="pill-greeting">PERSONALIZED <span class="arr">▼</span></div>
-                        <div class="pill-item gray" id="pill-tld">STANDARD TLD <span class="arr">▼</span></div>
-                    </div>
-
-                    <!-- Row 4: Threats & NLP Checks (Red/Alert) -->
-                    <div class="pill-row">
-                        <span class="pill-label">NLP TACTICS</span>
-                        <div class="pill-item red" id="pill-nlp">NLP NORMAL <span class="arr">▼</span></div>
-                        <div class="pill-item red" id="pill-urgency">NO URGENCY <span class="arr">▼</span></div>
-                    </div>
-                    <div class="pill-row">
-                        <span class="pill-label">AI MODEL</span>
-                        <div class="pill-item red" id="pill-ml">AI CONF: 0% <span class="arr">▼</span></div>
-                        <div class="pill-item red" id="pill-verdict">VERDICT: SAFE <span class="arr">▼</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Drag & Drop Zone inside Modal -->
-            <div class="modal-drop-zone" id="drop-zone">
-                <input type="file" id="file-input" accept=".eml,.msg,.txt" style="display:none;">
-                <div class="drop-text">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    <span id="drop-label">Drop .EML File Here or Click to Browse</span>
-                </div>
-            </div>
-
-            <!-- Sample Quick Actions -->
-            <div class="sample-actions">
-                <button class="sample-btn phishing" id="btn-sample-phish">⚠️ Test Phishing Sample</button>
-                <button class="sample-btn safe" id="btn-sample-safe">🛡️ Test Safe Sample</button>
-            </div>
-
-            <!-- Filter Controls (English Labels) -->
-            <div class="scan-filters">
-                <div class="filter-group">
-                    <label>SCAN FILTERS</label>
-                    <div class="filter-controls">
-                        <span>Check Criteria</span>
-                        <select id="select-area-count">
-                            <option value="6">6 Areas ▼</option>
-                            <option value="8">8 Areas ▼</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="filter-group">
-                    <div class="filter-controls">
-                        <span>Risk Threshold</span>
-                        <select id="select-kriter">
-                            <option value="high">High Risk ▼</option>
-                            <option value="medium">Medium Risk ▼</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Primary Action Button -->
-            <button class="primary-scan-btn" id="btn-execute-scan">
-                <span class="btn-icon">⚡</span>
-                <span id="scan-btn-text">Run Security Scan / Analyze Email</span>
-            </button>
-            
-        </div>
-    </div>
-
-    <!-- DEEP ANALYSIS RESULTS DRAWER / MODAL -->
-    <div class="results-drawer" id="results-drawer">
-        <div class="drawer-content">
-            <div class="drawer-header">
-                <h2>🔍 Deep Security Analysis & Explainable AI Details</h2>
-                <button class="close-btn" id="close-drawer">✕</button>
-            </div>
-            
-            <div class="result-verdict-banner" id="res-banner">
-                <div class="verdict-tag" id="res-verdict">SAFE</div>
-                <div class="verdict-score" id="res-score">Risk Score: 0/100</div>
-            </div>
-
-            <!-- Visual Score Gauge Chart inside Results Modal -->
-            <div class="result-chart-box">
-                <h4>Engine Sub-Scores Visual Breakdown</h4>
-                <div style="height: 180px; position: relative;">
-                    <canvas id="drawerScoreChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Results Tabs -->
-            <div class="result-tabs">
-                <button class="tab-btn active" data-tab="tab-exp">🧠 Explainable AI Evidence</button>
-                <button class="tab-btn" data-tab="tab-urls">🔗 Extracted URLs</button>
-                <button class="tab-btn" data-tab="tab-atts">📎 Attachments</button>
-                <button class="tab-btn" data-tab="tab-auth">📧 Authentication & Headers</button>
-                <button class="tab-btn" data-tab="tab-raw">📝 Raw Email Text</button>
-            </div>
-
-            <div class="tab-contents">
-                <div class="tab-pane active" id="tab-exp">
-                    <h3>Technical Evidence Findings</h3>
-                    <ul class="evidence-list" id="list-explanations"></ul>
-                    <h3>Security Operations Recommendations</h3>
-                    <ul class="recommendation-list" id="list-recommendations"></ul>
-                </div>
-                <div class="tab-pane" id="tab-urls">
-                    <table class="data-table">
-                        <thead><tr><th>URL Target</th><th>Domain Host</th><th>Risk Level</th><th>Score</th></tr></thead>
-                        <tbody id="tbl-urls-body"></tbody>
-                    </table>
-                </div>
-                <div class="tab-pane" id="tab-atts">
-                    <table class="data-table">
-                        <thead><tr><th>Filename</th><th>Extension</th><th>Size (Bytes)</th><th>Risk Level</th></tr></thead>
-                        <tbody id="tbl-atts-body"></tbody>
-                    </table>
-                </div>
-                <div class="tab-pane" id="tab-auth">
-                    <pre class="code-box" id="code-auth"></pre>
-                </div>
-                <div class="tab-pane" id="tab-raw">
-                    <pre class="code-box" id="code-raw"></pre>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- HISTORY MODAL -->
-    <div class="modal-overlay" id="history-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h2>📜 Scan History</h2>
-                <button class="close-btn" id="close-history">✕</button>
-            </div>
-            <div class="history-controls">
-                <input type="text" id="history-search" placeholder="Search scans by sender, subject, or filename...">
-                <button class="danger-btn" id="btn-clear-db">Clear History</button>
-            </div>
-            <div class="table-scroll">
-                <table class="data-table">
-                    <thead><tr><th>ID</th><th>Date</th><th>Filename</th><th>Sender</th><th>Subject</th><th>Verdict</th></tr></thead>
-                    <tbody id="tbl-history-body"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- JS Scripts -->
-    <script src="/static/js/three_background.js"></script>
-    <script src="/static/js/charts.js"></script>
-    <script src="/static/js/app.js"></script>
+  <!-- Application Controller Scripts -->
+  <script src="/static/js/three_cyber_globe.js"></script>
+  <script src="/static/js/app.js"></script>
 </body>
 </html>

@@ -1,94 +1,70 @@
-# PhishGuard AI
+# PhishGuard AI — Enterprise SOC Security & Threat Intelligence Platform
 
-A standalone Windows desktop application that detects phishing emails by analysing `.eml` files. It provides a rich, explainable report, stores scan history locally and can export results as PDF, HTML or JSON.
+PhishGuard AI is an open-source, SOC-grade phishing analysis platform that inspects `.eml` files using a multi-engine hybrid architecture (Header Analysis, URL Matrix, Attachment Sandbox, NLP Social Engineering, and ML Classification) with Explainable AI (XAI) scoring and MITRE ATT&CK technique mapping.
 
-## Features
-- Drag‑and‑drop or browse for `.eml` files
-- Hybrid detection engine (rule‑based + header + URL + attachment + NLP + ML)
-- Explainable AI – list reasons for each finding
-- Scan history stored in SQLite
-- Export reports (PDF/HTML/JSON)
-- Offline‑first (all analysis runs locally)
+---
 
-## Quick Start (developer)
+## 🚀 Features
+
+- **Enterprise Dark Interface**: Modern glassmorphism UI with Three.js 3D WebGL cyber threat shield.
+- **Drag & Drop .eml Analyzer**: Interactive real-time pipeline flow visualization.
+- **5-Pillar Hybrid Engine**:
+  - **Header Engine**: SPF / DKIM / DMARC verification, Return-Path mismatch, Display Name Brand Spoofing.
+  - **URL Matrix**: Anchor text deception detection, Punycode homographs, shorteners, high-risk TLDs.
+  - **Attachment Sandbox**: Double extensions, macro-enabled office docs, executable detection, SHA-256 hashes.
+  - **NLP Detector**: Keyword pattern matching for urgency, fear tactics, credential harvesting, wire transfers.
+  - **ML Classifier**: TF-IDF + Random Forest model with dynamic probability boosting.
+- **Explainable AI (XAI)**: Detailed breakdown of score additions and actionable SOC recommendations.
+- **Threat Intelligence & MITRE ATT&CK**: Maps threat vectors directly to MITRE tactics (T1566.001, T1566.002, T1056.001, T1036.007).
+- **Report Exports**: Instant exports in JSON, HTML, or TXT formats.
+
+---
+
+## ⚡ Quick Start
+
 ```powershell
-# Install dependencies
+# 1. Install dependencies
 pip install -r requirements.txt
 
-# Run the app (development mode)
-python -m app.main_window
+# 2. Start the Enterprise Web Application
+python web_server.py
 ```
 
-## Building the Windows executable
-```powershell
-# Using PyInstaller
-pyinstaller installer/build.spec
-```
+Access the Web Platform at: `http://127.0.0.1:5000`
 
-## License
-MIT
+---
 
-## Project Structure
+## 🛠 Project Structure
 
 ```
 PhishGuardAI/
-├─ app/
-│   └─ main_window.py
-├─ controllers/
-├─ services/
-├─ email_parser/
-├─ header_analysis/
-├─ url_analysis/
-├─ attachment_analysis/
-├─ nlp/
-├─ ai/
-├─ database/
-├─ reports/
-├─ resources/
-│   ├─ icons/
-│   └─ theme.qss
-├─ tests/
-├─ installer/
-│   └─ build.spec
-├─ requirements.txt
-└─ README.md
+├── core/
+│   ├── ai/               # Random Forest ML Classifier
+│   ├── attachment_analysis/ # Attachment Sandbox
+│   ├── database/         # SQLite Historical Log Storage
+│   ├── email_parser/     # MIME Email Parser
+│   ├── header_analysis/   # Header & Auth Analyzer
+│   ├── nlp/              # Social Engineering Detector
+│   ├── reports/          # Report Generator (JSON/HTML/TXT)
+│   ├── url_analysis/     # URL Security Matrix
+│   └── hybrid_engine.py  # Hybrid XAI Aggregator
+├── services/
+│   └── threat_intel.py   # IOC Extraction & MITRE ATT&CK Mapping
+├── web/
+│   ├── static/
+│   │   ├── css/style.css            # Dark Glassmorphism SOC Theme
+│   │   └── js/
+│   │       ├── app.js               # Application & Pipeline Controller
+│   │       └── three_cyber_globe.js # Three.js 3D WebGL Visualizer
+│   └── templates/
+│       └── index.html               # Enterprise Web Dashboard
+├── fastapi_app.py        # FastAPI REST API Server
+├── web_server.py         # Application Entry Point
+├── requirements.txt      # Python Dependencies
+└── samples/              # Sample .eml Test Files
 ```
-
-## Development Workflow
-
-```bash
-# Clone the repository
-git clone <repo_url>
-cd PhishGuardAI
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the application in development mode
-python -m app.main_window
-
-# Run the test suite
-pytest
-```
-
-## Testing
-
-- Unit tests cover each analysis module (header, URL, attachment, NLP, ML).
-- Integration tests run the full pipeline on a set of benign and phishing `.eml` samples.
-- CI is configured with GitHub Actions to run on every push.
-
-## Contributing
-
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/your-feature`).
-3. Write tests for your changes.
-4. Submit a Pull Request.
-
-## Roadmap
-
-- Outlook / Gmail plugin integration.
-- Real‑time email monitoring.
-- Online threat‑intel enrichment (VirusTotal, Safe Browsing).
-- Advanced ML models (MiniLM, RoBERTa).
 
 ---
+
+## 📄 License
+MIT License
