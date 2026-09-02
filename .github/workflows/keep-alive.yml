@@ -1,0 +1,24 @@
+name: Render Keep Alive Service
+
+on:
+  schedule:
+    # Run every 14 minutes to prevent Render free tier from spinning down (which happens after 15 mins of inactivity)
+    - cron: '*/14 * * * *'
+  # Enable manual triggering from the GitHub Actions UI tab
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    name: Ping Render Service
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send HTTP GET Request to Health Endpoint
+        run: |
+          echo "Sending keep-alive request to Render..."
+          # -s: Silent mode (hides progress bar)
+          # -S: Show error message if it fails
+          # -f: Fail silently on HTTP server errors (4xx or 5xx returns non-zero exit status causing step failure)
+          curl -sSf https://phishguard-1-19bb.onrender.com/health
+          echo ""
+          echo "Health check succeeded — Render service is active."

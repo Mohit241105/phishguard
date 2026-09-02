@@ -49,6 +49,10 @@ class UserAuthRequest(BaseModel):
     username: str
     password: str
 
+@app.get("/health")
+def health_check():
+    return "OK"
+
 @app.get("/")
 def read_root():
     return FileResponse(os.path.join(web_dir, "templates", "index.html"))
