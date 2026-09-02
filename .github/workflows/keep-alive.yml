@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send HTTP GET Request to Health Endpoint
+      - name: Send HTTP GET Request to Service Root
         run: |
           echo "Sending keep-alive request to Render..."
           # -s: Silent mode (hides progress bar)
           # -S: Show error message if it fails
           # -f: Fail silently on HTTP server errors (4xx or 5xx returns non-zero exit status causing step failure)
-          curl -sSf https://phishguard-1-19bb.onrender.com/health
+          curl -sSf https://phishguard-1-19bb.onrender.com/
           echo ""
           echo "Health check succeeded — Render service is active."
