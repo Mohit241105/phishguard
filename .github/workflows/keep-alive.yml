@@ -19,6 +19,6 @@ jobs:
           # -s: Silent mode (hides progress bar)
           # -S: Show error message if it fails
           # -f: Fail silently on HTTP server errors (4xx or 5xx returns non-zero exit status causing step failure)
-          curl -sSf https://phishguard-1-19bb.onrender.com/
+          curl -sSf https://phishguard-1-19bb.onrender.com
           echo ""
           echo "Health check succeeded — Render service is active."
