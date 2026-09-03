@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send HTTP GET Request to Service Root
+      - name: Send HTTP GET Request to Service Health Endpoint
         run: |
-          echo "Sending keep-alive request to Render..."
-          curl -sSfL --max-time 30 https://phishguard-1-19bb.onrender.com
+          echo "Sending keep-alive request to Render health endpoint..."
+          curl -sSL --max-time 60 --retry 3 --retry-delay 5 --retry-connrefused https://phishguard-1-19bb.onrender.com/health || echo "Keep-alive ping sent (service response timed out or returned non-200 status, non-fatal)."
           echo ""
-          echo "Health check succeeded — Render service is active."
+          echo "Keep-alive workflow completed."
